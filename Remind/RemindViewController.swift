@@ -10,8 +10,7 @@ import UIKit
 
 class RemindViewController: UITableViewController {
     
-    let itemArray = ["Buy milk","Pay Cellphone Bill", "Call Mom"]
-
+    var itemArray = ["da","dads"] 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -26,7 +25,7 @@ class RemindViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "RemindItemCell", for: indexPath)
         
-        cell.textLabel?.text = itemArray[indexPath.row]
+        cell.textLabel?.text = itemArray[indexPath.row] as! String
         
         return cell
         
@@ -42,6 +41,31 @@ class RemindViewController: UITableViewController {
             tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
         }
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    // Add new items section
+    
+    @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
+        
+        var textField = UITextField()
+        
+        let alert = UIAlertController(title: "Add New Remind Item", message: "", preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: "Add Item", style: .default) {
+            (action) in
+            
+            // When user clicks the Add item button on our UIAlert
+            self.itemArray.append(textField.text!)
+            
+            self.tableView.reloadData()
+        }
+        alert.addTextField { (alertTextField) in
+            alertTextField.placeholder = "Create new item"
+            textField = alertTextField
+        }
+        alert.addAction(action)
+        
+        present(alert, animated: true, completion: nil)
     }
 }
 
