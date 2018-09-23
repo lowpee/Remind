@@ -10,9 +10,16 @@ import UIKit
 
 class RemindViewController: UITableViewController {
     
-    var itemArray = ["da","dads"] 
+    var itemArray = ["find mike","pay phone bill"]
+    
+    let defaults = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let items = defaults.array(forKey: "TodoListArray") as? [String] {
+            itemArray = items 
+        }
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -56,6 +63,8 @@ class RemindViewController: UITableViewController {
             
             // When user clicks the Add item button on our UIAlert
             self.itemArray.append(textField.text!)
+            
+            self.defaults.set(self.itemArray, forKey: "TodoListArray")
             
             self.tableView.reloadData()
         }
